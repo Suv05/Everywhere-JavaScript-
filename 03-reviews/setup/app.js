@@ -29,3 +29,56 @@ const reviews = [
     text: 'Edison bulb put a bird on it humblebrag, marfa pok pok heirloom fashion axe cray stumptown venmo actually seitan. VHS farm-to-table schlitz, edison bulb pop-up 3 wolf moon tote bag street art shabby chic. ',
   },
 ];
+
+//select items
+const img = document.getElementById("person-img");
+const job = document.getElementById("job");
+const author = document.getElementById("author");
+const info = document.getElementById("info");
+
+// select buttons
+const prevbtn = document.querySelector(".prev-btn");
+const nextbtn = document.querySelector(".next-btn");
+const randombtn = document.querySelector(".random-btn");
+
+//starting item
+let startItem = 0;
+
+//load intial item
+window.addEventListener("DOMContentLoaded", function () {
+  personContent(startItem);
+
+})
+
+//Call back function for person
+function personContent(index) {
+  let item = reviews[index];
+  img.src = item.img;
+  author.textContent = item.name;
+  job.textContent = item.job;
+  info.textContent = item.text;
+}
+
+//adding functionality to my next-btn
+
+nextbtn.addEventListener("click", function () {
+  startItem++;
+  if (startItem > reviews.length - 1) {
+    startItem = 0;
+  }
+  personContent(startItem);
+});
+
+prevbtn.addEventListener("click", function () {
+  startItem--;
+  if (startItem < 0) {
+    startItem = reviews.length-1;
+  }
+  personContent(startItem);
+})
+
+randombtn.addEventListener("click", function () {
+  let randomImg = Math.floor(Math.random() * reviews.length);
+  startItem=randomImg;
+ personContent(startItem);
+})
