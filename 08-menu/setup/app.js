@@ -70,7 +70,8 @@ const menu = [
     price: 16.99,
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
-  },{
+  },
+  {
     id: 10,
     title: "Fried Chicken",
     category: "dinner",
@@ -81,33 +82,23 @@ const menu = [
 ];
 
 const sectionCenter = document.querySelector(".section-center");
-const filterBtns = document.querySelectorAll(".filter-btn");
+const btnContainer = document.querySelector(".btn-container");
 
 //adding eventlistener when page is ready to load
 window.addEventListener("DOMContentLoaded", function () {
   displayMenuItems(menu);
-  const category=menu.reduce(function(values,item){
-    
-
-  },["all"])
-});
-
-//adding eventlistner to all category btns
-filterBtns.forEach(function (btn) {
-  btn.addEventListener("click", function (e) {
-    let category = e.currentTarget.dataset.id;//send the category
-    let menuCategory = menu.filter(function (menuItems) {
-      // console.log(menuItems.category);
-      if (menuItems.category === category) {
-        return menuItems;
+  const categories = menu.reduce(
+    function (values, item) {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
       }
-    });
-    if (category === "all") {
-      displayMenuItems(menu);
-    } else {
-      displayMenuItems(menuCategory);
-    }
-  });
+      return values;
+    },
+    ["all"]
+  );
+  // console.log(categories);
+  //Call the function which will add unique button in your page
+  addCategoryBtn(categories);
 });
 
 //function to do work for display menu items
@@ -130,4 +121,31 @@ function displayMenuItems(menuItems) {
   displayMenu = displayMenu.join(" ");
   //console.log(displayMenu);
   sectionCenter.innerHTML = displayMenu;
+}
+
+//function to add category buttons in our page
+function addCategoryBtn(arr) {
+  let addbtns = arr.map(function (item) {
+    return `<button class="filter-btn" type="button" data-id=${item}>${item}</button>`;
+  });
+  addbtns = addbtns.join(" ");
+  btnContainer.innerHTML = addbtns;
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  //adding eventlistner to all category btns
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      let category = e.currentTarget.dataset.id; //send the category
+      let menuCategory = menu.filter(function (menuItems) {
+        // console.log(menuItems.category);
+        if (menuItems.category === category) {
+          return menuItems;
+        }
+      });
+      if (category === "all") {
+        displayMenuItems(menu);
+      } else {
+        displayMenuItems(menuCategory);
+      }
+    });
+  });
 }
