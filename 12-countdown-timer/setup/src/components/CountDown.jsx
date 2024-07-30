@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import gift from "../assets/gift.jpeg";
-import { days, hours, minutes, seconds } from "../utility/release";
 
 function CountDown({}) {
   const calculateTimeLeft = () => {
@@ -30,6 +29,13 @@ function CountDown({}) {
     return { days, hours, minutes, seconds };
   };
 
+  const [state, setState] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    setInterval(() => {
+      setState(calculateTimeLeft());
+    }, 1000);
+  }, [calculateTimeLeft()]);
   return (
     <>
       <section class="section-center">
@@ -53,7 +59,7 @@ function CountDown({}) {
             {/* <!-- days --> */}
             <div class="deadline-format">
               <div>
-                <h4 class="days">{remaingDays}</h4>
+                <h4 class="days">{state.days}</h4>
                 <span>days</span>
               </div>
             </div>
@@ -61,7 +67,7 @@ function CountDown({}) {
             {/* <!-- days --> */}
             <div class="deadline-format">
               <div>
-                <h4 class="hours">{remaingHours}</h4>
+                <h4 class="hours">{state.hours}</h4>
                 <span>hours</span>
               </div>
             </div>
@@ -69,7 +75,7 @@ function CountDown({}) {
             {/* <!-- minutes --> */}
             <div class="deadline-format">
               <div>
-                <h4 class="minutes">{remaingMinutes}</h4>
+                <h4 class="minutes">{state.minutes}</h4>
                 <span>mins</span>
               </div>
             </div>
@@ -77,7 +83,7 @@ function CountDown({}) {
             {/* <!-- minutes --> */}
             <div class="deadline-format">
               <div>
-                <h4 class="seconds">{remaingSeconds}</h4>
+                <h4 class="seconds">{state.seconds}</h4>
                 <span>secs</span>
               </div>
             </div>
