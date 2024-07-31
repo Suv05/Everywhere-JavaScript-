@@ -264,6 +264,7 @@ Grocery List
   transition: var(--transition);
   visibility: hidden;
 }
+/* =======Add class to make it visible========== */
 .show-container {
   visibility: visible;
 }
