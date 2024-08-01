@@ -6,6 +6,8 @@ function Xyz({}) {
   const [edit, setEdit] = useState(false);
   const [listItem, setListItem] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [submit, setSubmit] = useState(false);
+  const [del, setDel] = useState(false);
 
   // Load items from localStorage when the component mounts
   useEffect(() => {
@@ -40,11 +42,15 @@ function Xyz({}) {
       });
     }
     setValue("");
+    setSubmit(true);
+    setDel(false);
   };
 
   const handelDeleteBtn = (getIndex) => {
     const filteredList = listItem.filter((_, index) => index !== getIndex);
     setListItem(filteredList);
+    setDel(true);
+    setSubmit(false);
   };
 
   const handelEditBtn = (getIndex) => {
@@ -53,12 +59,28 @@ function Xyz({}) {
     setValue(listItem[getIndex]);
   };
 
+  const handelClearBtn = () => {
+    setListItem([]);
+    setSubmit(false);
+    localStorage.removeItem("groceryList");
+  };
+
   return (
     <>
       <section className="section-center">
         {/* <!-- form --> */}
         <form className="grocery-form" onSubmit={handelSubmit}>
-          <p className="alert"></p>
+          <p
+            className={`alert ${
+              submit ? "alert-success" : del ? "alert-danger" : ""
+            }`}
+          >
+            {submit
+              ? "Item added successfully"
+              : del
+              ? "Item removed successfully"
+              : ""}
+          </p>
           <h3>grocery bud</h3>
           <div className="form-control">
             <input
@@ -106,7 +128,9 @@ function Xyz({}) {
                 ))
               : null}
           </div>
-          <button className="clear-btn">clear items</button>
+          <button className="clear-btn" onClick={handelClearBtn}>
+            clear items
+          </button>
         </div>
       </section>
     </>
